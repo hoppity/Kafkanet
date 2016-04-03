@@ -142,7 +142,7 @@ namespace Kafka.Client.Consumers
                     var topicDirs = new ZKGroupTopicDirs(this.config.GroupId, topic.Key);
                     foreach (KeyValuePair<int, PartitionTopicInfo> partition in topic.Value)
                     {
-                        var newOffset = partition.Value.ConsumeOffset;
+                        var newOffset = partition.Value.ConsumeOffset + (config.NewCommitBehavior ? 1 : 0);
                         try
                         {
                             if (partition.Value.ConsumeOffsetValid)

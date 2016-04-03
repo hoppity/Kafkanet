@@ -520,18 +520,20 @@ namespace Kafka.Client.ZooKeeperIntegration.Listeners
             {
                 offsetCommited = long.Parse(offsetString);
                 long latestOffset = this.EarliestOrLatestOffset(topic, leader, partitionId, OffsetRequest.LatestTime);
-                offset = Math.Min(offsetCommited + 1, latestOffset);
+                offset = config.NewCommitBehavior ? offsetCommited : offsetCommited + 1;
+                offset = Math.Min(offset, latestOffset);
                 Logger.InfoFormat("Final offset {0} for topic {1} partition {2} OffsetCommited {3} latestOffset {4}"
                     , offset, topic, partition, offsetCommited, latestOffset);
             }
 
+            var offsetConsumed = config.NewCommitBehavior ? offsetCommited - 1 : offsetCommited;
             var queue = this.queues[new Tuple<string, string>(topic, consumerThreadId)];
             var partTopicInfo = new PartitionTopicInfo(
                 topic,
                 leader,
                 partitionId,
                 queue,
-                offsetCommited,
+                offsetConsumed,
                 offset,
                 offset,
                 this.config.FetchSize,
