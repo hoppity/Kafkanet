@@ -76,8 +76,6 @@ namespace Kafka.Client.Cfg
 
         public const int DefaultConsumeGroupFindNewLeaderSleepIntervalMs = 2000;
 
-        public const bool DefaultNewCommitBehavior = false;
-
         #region Constructor
         public ConsumerConfiguration()
         {
@@ -101,7 +99,6 @@ namespace Kafka.Client.Cfg
             this.Verbose = false;
             this.ConsumeGroupRebalanceRetryIntervalMs = DefaultConsumeGroupRebalanceRetryIntervalMs;
             this.ConsumeGroupFindNewLeaderSleepIntervalMs = DefaultConsumeGroupFindNewLeaderSleepIntervalMs;
-            this.NewCommitBehavior = DefaultNewCommitBehavior;
         }
 
         private string GetHostName()
@@ -353,13 +350,6 @@ namespace Kafka.Client.Cfg
         /// No place use it now.  Why it here?
         /// </summary>
         public int MaxFetchFactor { get; set; }
-
-        /// <summary>
-        /// Whether to use the new offset commit behaviour of the next fetch offset
-        /// or the traditional behaviour of the consumed offset.
-        /// Default = false.
-        /// </summary>
-        public bool NewCommitBehavior { get; set; }
 
         #endregion
 
